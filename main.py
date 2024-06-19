@@ -41,6 +41,12 @@ async def main():
     # функция для вызова хендлеров из пакета handlers
     register_message_handler(dp)
 
+    # настройка sheduler`a
+    # https://botfather.dev/blog/zapusk-funkczij-v-bote-po-tajmeru
+    scheduler = AsyncIOScheduler()
+    scheduler.add_job(check_yadisk, "interval", seconds=CHECK_YADISK_INTERVAL, args=(bot, ))
+    scheduler.start()
+
     # передача списка команд боту
     await bot.set_my_commands(commands=commands_for_bot)
     await dp.start_polling(bot)
